@@ -55,6 +55,9 @@ class ObjectID(object):
             else:
                 raise TypeError
 
+    def to_bin(self):
+        return binascii.unhexlify(self.object_id)
+
     def __str__(self):
         if py_ver == 3:
             return str(self.object_id, 'utf-8')

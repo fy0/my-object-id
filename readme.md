@@ -11,4 +11,18 @@ a = ObjectID()
 b = ObjectID('56222d21293b328eb0000002')
 
 a > b
+>>> True
+
+len(a)
+>>>> 24
+
+print(a)
+>>>> 562237f4293b328a84000003
+
+a.to_bin()
+>>>> 'V"7\xf4);2\x8a\x84\x00\x00\x03'
+
+len(a.to_bin())
+>>>> 12
+
 ```

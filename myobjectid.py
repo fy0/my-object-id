@@ -63,6 +63,9 @@ class ObjectID(object):
 
     def __repr__(self):
         return "ObjectID('%s')" % str(self)
+        
+    def __len__(self):
+        return len(str(self))
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):

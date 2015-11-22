@@ -13,7 +13,6 @@ py_ver = sys.version_info.major
 
 class ObjectID(object):
     _index = 0
-    _pid_bytes = os.getpid() % 0xFFFF
     _hostname_bytes = hashlib.md5(socket.gethostname().encode('utf-8')).digest()[0:3]
 
     def __init__(self, object_id=None):
@@ -29,7 +28,9 @@ class ObjectID(object):
         self.time = int(time.time())
         object_id = struct.pack(">i", self.time)
         object_id += self._hostname_bytes
-        object_id += struct.pack(">H", self._pid_bytes)
+        # 在 celery 中，多个worker首次获取到的 os.getpid() 是同一个值！
+        # 这会导致唯一性出现致命问题，所以保险起见生成一次取一次
+        object_id += struct.pack(">H", os.getpid() % 0xFFFF)
         object_id += struct.pack(">I", ObjectID._index % 0xFFF)[1:]
         self.object_id = binascii.hexlify(object_id)
 

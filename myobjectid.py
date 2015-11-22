@@ -56,6 +56,9 @@ class ObjectID(object):
             else:
                 raise TypeError
 
+    def to_hex(self):
+        return str(self)
+
     def to_bin(self):
         return binascii.unhexlify(self.object_id)
 

@@ -31,7 +31,7 @@ class ObjectID(object):
         # 在 celery 中，多个worker首次获取到的 os.getpid() 是同一个值！
         # 这会导致唯一性出现致命问题，所以保险起见生成一次取一次
         object_id += struct.pack(">H", os.getpid() % 0xFFFF)
-        object_id += struct.pack(">I", ObjectID._index % 0xFFF)[1:]
+        object_id += struct.pack(">I", ObjectID._index % 0xFFFFFF)[1:]
         self.object_id = binascii.hexlify(object_id)
 
     def _parse_id(self, object_id):
